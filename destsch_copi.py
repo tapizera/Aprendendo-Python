@@ -44,7 +44,7 @@ def numero_em_alemao(n):
 # Funcionamento
 while True:
     try:
-        n = int(input("Digite um número de 1 a 20: "))
+        n = int(input("Digite um número: "))
         print(f"{n} em alemão é: {numero_em_alemao(n)}")
     except ValueError:
         print("Por favor, digite um número válido.")
