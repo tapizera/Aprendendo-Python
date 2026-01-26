@@ -16,7 +16,7 @@ print(f'\nTotal de pessoas cadastradas: {len(pessoas)}')
 # 2. Média de idade
 if pessoas:
     media_idade = sum(p['idade'] for p in pessoas) / len(pessoas)
-    print(f'Média de idade: {media_idade:.2f}')
+    print(f'Média de idade: {media_idade:.2f}') #:.2f -> formatação p decimal dps da virgula só ter 2 digitos
 else:
     print('Nenhuma pessoa cadastrada para calcular média de idade.')
 
