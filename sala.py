@@ -18,7 +18,7 @@ print(Aluno('nome', 20, 3))
 
 class Funcionario(Pessoa):
     def __init__(self, nome, idade, cargo):
-        super().__init(nome, idade)
+        super().__init__(nome, idade)
         self.cargo = cargo
     def __str__(self):
         return f'esse tal de {self.nome} tem {self.idade} anos e trabalha de {self.cargo}'
