@@ -1,3 +1,6 @@
+
+print("Hello, World!")
+
 #não lê o código pra relembrar, tá mal explicado e o foco foi em fazer um desafio a si mesmo
 #só executa
 
@@ -13,7 +16,7 @@ class Pessoa:
         self.idade = idade
 
     def info(self):
-        print(f'\n --- INFO ---\n> nome: {self.nome}\n> idade: {self.idade} anos')
+        print(f'\n> nome: {self.nome}\n> idade: {self.idade} anos')
 
 ############## NO TERMINAL
 
@@ -31,7 +34,7 @@ novapessoa = Pessoa(nomepessoa, idadepessoa)
 #         novapessoa.infoaluno()
 
 quiserverinfo = input('quer ver a info da pessoa? (s/n): ')
-if quiserverinfo.lower().strip() == 's' or 'sim':
+if quiserverinfo.lower().strip() in ('s', 'sim'):
     novapessoa.info()   
 
 
@@ -49,7 +52,15 @@ class Aluno(Pessoa):
         self.serie = serie
 
     def infoaluno(self):
-        print(f'\n --- INFO ---\n> nome: {self.nome}\n> idade: {self.idade} anos\n> série: {self.serie}° ano')
+        print(f'\n> nome: {self.nome}\n> idade: {self.idade} anos\n> série: {self.serie}° ano')
+
+    # gpt falou p botar p ficar melhor
+    def __str__(self):
+        return f'{self.nome} ({self.idade} anos)'
+    
+    # e isso tmb
+    def __repr__(self):
+        return f"Aluno(nome={self.nome!r}, idade={self.idade}, serie={self.serie!r})"
 
 ############## NO TERMINAL
 
@@ -60,7 +71,7 @@ serie = input('serie do aluno: ')
 novoaluno = Aluno(nomealuno, idadealuno, serie)
 
 quiserverinfodoaluno = input('quer ver a info do aluno? (s/n): ')
-if quiserverinfodoaluno.lower().strip() == 's' or 'sim':
+if quiserverinfodoaluno.lower().strip() in ('s', 'sim'):
     novoaluno.infoaluno()
 
 
@@ -98,12 +109,12 @@ if cargofuncionario in ('professor', 'professora', 'prof'):
     materiaprof = input('materia do professor: ')
     novoprofessor = Professor(nomefuncionario, idadefuncionario, cargofuncionario,materiaprof)
     quiserverinfodoprof = input('quer ver a info do professor? (s/n): ')
-    if quiserverinfodoprof.lower().strip() == 's' or 'sim':
+    if quiserverinfodoprof.lower().strip() in ('s', 'sim'):
         novoprofessor.infoprof()
 
 
 
-elif cargofuncionario in ('diretor', 'diretora'):
+elif cargofuncionario in ('diretor', 'diretora', 'diret'):
     class Diretor(Funcionario):
         def __init__(self, nome, idade, cargo):
             super().__init__(nome, idade, cargo)
@@ -113,12 +124,12 @@ elif cargofuncionario in ('diretor', 'diretora'):
 
     novodiretor = Diretor(nomefuncionario, idadefuncionario, cargofuncionario)
     quiserverinfododiret = input('quer ver a info do diretor? (s/n): ')
-    if quiserverinfododiret.lower().strip() == 's' or 'sim':
+    if quiserverinfododiret.lower().strip() in ('s', 'sim'):
         novodiretor.infodiretor()
 
 
 
-elif cargofuncionario in ('coordenador', 'cordenadora'):
+elif cargofuncionario in ('coordenador', 'cordenadora', 'coord'):
     class Coordenador(Funcionario):
         def __init__(self, nome, idade, cargo):
             super().__init__(nome, idade, cargo)
@@ -128,7 +139,7 @@ elif cargofuncionario in ('coordenador', 'cordenadora'):
         
     novocoordenador = Coordenador(nomefuncionario, idadefuncionario, cargofuncionario)
     quiserverinfodocoord = input('quer ver a info do coordenador? (s/n): ')
-    if quiserverinfodocoord.lower().strip() == 's' or 'sim':
+    if quiserverinfodocoord.lower().strip() in ('s', 'sim'):
         novocoordenador.infocoord()
 
 
@@ -136,7 +147,7 @@ elif cargofuncionario in ('coordenador', 'cordenadora'):
 else:
     novofuncionario = Funcionario(nomefuncionario, idadefuncionario, cargofuncionario)
     quiserverinfodofunc = input('quer ver a info do funcionario? (s/n): ')
-    if quiserverinfodofunc.lower().strip() == 's' or 'sim':
+    if quiserverinfodofunc.lower().strip() in ('s', 'sim'):
         novofuncionario.infofunc()
 
 
@@ -154,16 +165,32 @@ class Sala:
         else:
             raise ValueError("Apenas objetos do tipo Pessoa podem ser adicionados como alunos.")
             # nao pode aluno que nao seja do tipo pessoa ksksks
-        
+    
+    # ia daq pediu p botar isso
+    def qtddealunos(self):
+        return len(self.alunos)
+    
     def infosala(self):
-        print(f'\n> nome da Sala: {nomesala}\n> alunos ({len(self.alunos)}): {nomealuno}')
+        print(f'\n> nome da sala: {self.nome}')
+        print(f'> alunos ({len(self.alunos)}):')
+
+        for aluno in self.alunos:
+            print(f'  - {aluno.nome}, {aluno.idade} anos ({aluno.serie}° ano)')
+
+    # gpt recomendou botar
+    def __str__(self):
+        return f'Sala {self.nome}'
+    
+    # gpt tmb
+    def __repr__(self):
+        return f"Sala(nome={self.nome!r}, alunos={len(self.alunos)})"
 
 
 print('\n --- NOVA SALA --- ')
 nomesala = input('nome da sala: ')
 novasala = Sala(nomesala)
 
-quiseraddaluno = input('quer add aquele ou outro aluno? (1/2): ')
+quiseraddaluno = input('quer add aquele aluno ou outro? (1/2): ')
 if quiseraddaluno.strip() == '1':
     novasala.addaluno(novoaluno)
 elif quiseraddaluno.strip() == '2':
@@ -174,7 +201,7 @@ elif quiseraddaluno.strip() == '2':
     novasala.addaluno(novoaluno2)
 
 quiserverinfodasala = input('quer ver a info da sala? (s/n): ')
-if quiserverinfodasala.lower().strip() == 's' or 'sim':
+if quiserverinfodasala.lower().strip() in ('s', 'sim'):
     novasala.infosala()
      
     
@@ -186,31 +213,84 @@ class Escola:
         self.nome = nome
         self.salas = []
 
-    def add_sala(self, nova_sala):
-        if isinstance(nova_sala, Sala):
-            self.salas.append(nova_sala)
+    def addsala(self, novasala):
+        if isinstance(novasala, Sala):
+            self.salas.append(novasala)
             # se a sala foi do tipo Sala, pode add
         else:
             raise ValueError("Apenas objetos do tipo Sala podem ser adicionados.")
             # se n for n pode
 
-    def listar_salas(self):
-        print(f'{[nova_sala.nome for nova_sala in self.salas]}')
+    # Gpt deu help aqui
+    def totaldealunos(self):
+        total = 0
+        for sala in self.salas:
+            total += sala.qtddealunos()
+        return total
+        
+    # aqui tmb
+    def listarsalas(self):
+        for sala in self.salas:
+            print(f'- {sala}')
+        
+    # e aqui tmb
+    def listartudo(self):
+        for sala in self.salas:
+            print(f'Sala: {sala.nome}')
 
-    def infosala(self):
-        print(f'\n> nome da escola: {nomeescola}\n> salas da escola ({len(self.salas)}): {self.salas}\n> alunos da escola(#quantidade de alunos#): (cada aluno de cada sala')
+            if not sala.alunos:
+                print('  (sem alunos)')
+            # equivalente a:
+            #if len(alunos) == 0:
+                #print(' (sem alunos)')
+
+            else:
+                for aluno in sala.alunos:
+                    print(f'  - {aluno.nome} ({aluno.idade} anos)')
+    
+    # gpt
+    def __str__(self):
+        return f'Escola {self.nome}'
+
+    # gpt
+    def __repr__(self):
+        return f"Escola(nome={self.nome!r}, salas={len(self.salas)})"
+
+    # gpt
+    def infoescola(self):
+        print(f'\n> Nome da escola: {self.nome}')
+        print(f'> Salas ({len(self.salas)}):')
+        if not self.salas:
+            print('\n  (nao tem sala nao)')
+            return
+
+        for sala in self.salas:
+            print(f'  - {sala.nome}')
+
+        print(f'> Alunos ({self.totaldealunos()}):')
+        if not self.salas:
+            print('\n(tem sala nao)')
+            return
+
+        for sala in self.salas:
+            for aluno in sala.alunos:
+                print(f'  - {aluno.nome}, {aluno.idade} anos - {aluno.serie}°ano') 
+                print(f'    sala: {sala.nome})')
+
+        #self.listartudo()
 
 print('\n --- NOVA ESCOLA --- ')
 nomeescola = input('nome da escola: ')
 novaescola = Escola(nomeescola)
-quiserverinfodaescola = input('quer listar salas? (s/n): ')
-if quiserverinfodasala.lower().strip() == 's' or 'sim':
-    novaescola.infosala()
 
-quiserlistarsalas = input('quer listar salas? (s/n): ')
-if quiserlistarsalas.lower().strip() == 's' or 'sim':
-    novaescola.listar_salas()
+quiseraddsala = input('quer add aquela sala ou outra? (1/2): ')
+if quiseraddsala.strip() == '1':
+    novaescola.addsala(novasala)
+elif quiseraddsala.strip() == '2':
+    nomesala2 = input('nome da sala: ')
+    novasala2 = Sala(nomesala2)
+    novaescola.addsala(novasala2)
 
-
-
-# nao sei como fiz isso funcionar mas acho q deu certo
+quiserverinfodaescola = input('quer ver info da escola? (s/n): ')
+if quiserverinfodasala.lower().strip() in ('s', 'sim'):
+    novaescola.infoescola()
